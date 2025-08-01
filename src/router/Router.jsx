@@ -3,6 +3,7 @@ import MainLayout from "../MainLayout"
 import RouteTransition from "../components/RouteTransition"
 import Home from "../Home"
 import Category from "../Category"
+import Products from "../Products"
 import Login from "../Login"
 import Register from "../Register"
 
@@ -27,6 +28,15 @@ const router = createBrowserRouter([
           </RouteTransition>
         ),
       },
+      {
+        path: "/products/:categoryName",
+        element: (
+          <RouteTransition>
+            <Products />
+          </RouteTransition>
+        ),
+      },
+      
     ],
   },
   // Auth pages as direct routes with RouteTransition

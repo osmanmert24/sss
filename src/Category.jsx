@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
-import { useNavigate } from 'react-router';
-
+import { Link } from 'react-router';
+import { translateCategoryToTurkish } from './utils/categoryTranslations';
+ 
 
 
 export default function Category() {
-    const [category, setCategory] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate(); 
 
     useEffect(() => {
         fetch("https://fakestoreapi.com/products/categories")
         .then(res => res.json())
         .then(data => {
-            setCategory(data);
+            setCategories(data);
             setLoading(false);
         })
         .catch(error => {
@@ -22,11 +22,7 @@ export default function Category() {
         });
     }, []);
 
-    const handleCategoryClick = (categoryName) => {
-        navigate(`/products/${categoryName}`);
-        console.log(categoryName);  
-
-    };
+   
 
     if (loading) {
         return (
@@ -52,12 +48,12 @@ export default function Category() {
 
             {/* Categories Grid */}
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16'>
-                {category.map((item) => (
-                    <Card 
-                        key={item} 
-                        category={item}
-                        onClick={handleCategoryClick}
-                    />
+                {categories.map((item) => (
+                    <Link key={item} to={`/products/${encodeURIComponent(translateCategoryToTurkish(item))}`}>
+                        <Card 
+                            category={item}
+                        />
+                    </Link>
                 ))}
             </div>
 
@@ -70,14 +66,14 @@ export default function Category() {
                     En çok tercih edilen kategorilerimizde binlerce kaliteli ürün sizi bekliyor
                 </p>
                 <div className="flex flex-wrap justify-center gap-3">
-                    {category.map((item) => (
-                        <span 
+                    {categories.map((item) => (
+                        <Link 
                             key={`tag-${item}`}
+                            to={`/products/${encodeURIComponent(translateCategoryToTurkish(item))}`}
                             className="px-4 py-2 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer hover:bg-gray-50"
-                            onClick={() => handleCategoryClick(item)}
                         >
-                            {item}
-                        </span>
+                            {translateCategoryToTurkish(item)}
+                        </Link>
                     ))}
                 </div>
             </div>

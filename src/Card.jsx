@@ -5,31 +5,32 @@ import {
     FaLaptop, 
     FaTshirt 
 } from 'react-icons/fa';
+import { translateCategoryToTurkish } from './utils/categoryTranslations';
 
 // Kategori ikonları ve gradient renkleri
 const categoryConfig = {
-    "electronics": {
+    "Elektronik": {
         icon: FaLaptop,
         gradient: "from-blue-500 to-purple-600",
         hoverGradient: "from-blue-600 to-purple-700",
         bgColor: "bg-blue-50",
         iconColor: "text-blue-600"
     },
-    "jewelery": {
+    "Takı": {
         icon: FaGem,
         gradient: "from-pink-500 to-rose-600",
         hoverGradient: "from-pink-600 to-rose-700",
         bgColor: "bg-pink-50",
         iconColor: "text-pink-600"
     },
-    "men's clothing": {
+    "Erkek Giyim": {
         icon: FaTshirt,
         gradient: "from-green-500 to-teal-600",
         hoverGradient: "from-green-600 to-teal-700",
         bgColor: "bg-green-50",
         iconColor: "text-green-600"
     },
-    "women's clothing": {
+    "Kadın Giyim": {
         icon: FaShirtsinbulk,
         gradient: "from-purple-500 to-indigo-600",
         hoverGradient: "from-purple-600 to-indigo-700",
@@ -39,7 +40,9 @@ const categoryConfig = {
 };
 
 export default function Card({ category, onClick }) {
-    const config = categoryConfig[category] || categoryConfig["electronics"];
+    // İngilizce kategoriyi Türkçeye çevir
+    const turkishCategory = translateCategoryToTurkish(category);
+    const config = categoryConfig[turkishCategory] || categoryConfig["Elektronik"];
     const IconComponent = config.icon;
 
     return (
@@ -63,12 +66,12 @@ export default function Card({ category, onClick }) {
                     
                     {/* Category Title */}
                     <h3 className="text-xl font-bold text-gray-800 mb-3 capitalize group-hover:text-gray-900 transition-colors duration-300 nunito">
-                        {category}
+                        {turkishCategory}
                     </h3>
                     
                     {/* Description */}
                     <p className="text-gray-600 text-sm mb-6 leading-relaxed">
-                        Discover amazing products in {category} category
+                        {turkishCategory} kategorisinde harika ürünleri keşfedin
                     </p>
                     
                     {/* Explore Button */}

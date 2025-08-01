@@ -1,20 +1,27 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import { translateCategoryToEnglish } from "./utils/categoryTranslations";
 
-export default function Products({category}) {
+export default function Products() {
 
     const [products, setProducts] = useState([]);
-
+    const { categoryName } = useParams();
+    
+    // URL'den gelen Türkçe kategori adını İngilizceye çevir (API filtrelemesi için)
+    const englishCategoryName = translateCategoryToEnglish(decodeURIComponent(categoryName));
     useEffect(() => {
-        fetch("https://fakestoreapi.com/products")
+        fetch(`https://fakestoreapi.com/products`)
             .then(res => res.json())
             .then(data => setProducts(data));
     }, []);
 
     return (    
         <div className="container mx-auto px-4 py-8">
-            <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Our Products</h2>
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+                {decodeURIComponent(categoryName)} Ürünleri
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                {products.filter(product => product.category === category).map(product => (
+                {products.filter(product => product.category === englishCategoryName).map(product => (
                     <div 
                         key={product.id} 
                         className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 overflow-hidden group"
